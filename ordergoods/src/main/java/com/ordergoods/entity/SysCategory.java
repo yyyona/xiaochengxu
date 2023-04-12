@@ -1,15 +1,16 @@
 package com.ordergoods.entity;
 
-import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
-import java.time.LocalDateTime;
-import java.io.Serializable;
+import com.baomidou.mybatisplus.annotation.TableName;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
+
+import java.io.Serializable;
+import java.time.LocalDateTime;
 
 /**
  * <p>
@@ -45,36 +46,6 @@ public class SysCategory implements Serializable {
 
     @ApiModelProperty(value = "备注")
     private String remark;
-
-    @ApiModelProperty(value = "冗余字段")
-    private String field0;
-
-    @ApiModelProperty(value = "冗余字段1")
-    private String field1;
-
-    @ApiModelProperty(value = "冗余字段2")
-    private String field2;
-
-    @ApiModelProperty(value = "冗余字段3")
-    private String field3;
-
-    @ApiModelProperty(value = "冗余字段4")
-    private String field4;
-
-    @ApiModelProperty(value = "冗余字段5")
-    private String field5;
-
-    @ApiModelProperty(value = "冗余字段")
-    private String field6;
-
-    @ApiModelProperty(value = "冗余字段")
-    private String field7;
-
-    @ApiModelProperty(value = "冗余字段")
-    private String field8;
-
-    @ApiModelProperty(value = "冗余字段")
-    private String field9;
 
     @ApiModelProperty(value = "创建时间")
     private LocalDateTime createTime;
