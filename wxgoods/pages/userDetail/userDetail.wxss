@@ -1,0 +1,9 @@
+/* pages/userDetail/userDetail.wxss */
+page{
+  background-color: white;
+}
+.text-item{
+  margin:30rpx 20rpx;
+  padding:20rpx;
+  bottom: 2px solid;
+}

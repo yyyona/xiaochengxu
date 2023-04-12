@@ -1,0 +1,71 @@
+var filters = {
+  //将传入的数值保留两位小数
+  toFixPrice: function (value) {
+    if (value) {
+      return parseFloat(value).toFixed(2)
+    }
+    return '0.00'
+  },
+  
+  //将传入的字符串转换为JSON对象
+  toJSON: function (value) {
+      if (value) {
+        return JSON.parse(value)
+      }
+    },
+
+//解析商品名称
+  toFixOfferName: function (value) {
+    if (value) {
+      //将传入字符串转化为 JSON 对象，再取出其中的 NAME 属性
+      return JSON.parse(value).NAME
+    }
+    return ''
+  },
+
+  // 解析商品规格信息
+  toFixOfferSpec: function (value) {
+    if (value) {
+      var attr1 = JSON.parse(value).SPEC_SKU_ATTRIBUTE
+      var attr = JSON.parse(attr1)
+      var result = ''
+      var tempArr = []
+      //遍历属性列表，找到类型为“1”的属性值（即规格名称）
+      for (var i = 0; i < attr.length; i++) {
+        var element = attr[i];
+        if (element.T == '1') {
+          tempArr.push(element.V)
+        }
+      }
+      // 拼接规格名称，中间用“，”隔开
+      for (var j = 0; j < tempArr.length; j++) {
+        var str = tempArr[j];
+        if (j < tempArr.length - 1) {
+          result += str + '，'
+        } else {
+          result += str
+        }
+      }
+      return result
+    }
+    return ''
+  },
+
+  //将时间戳格式化为 "YYYY-MM-DD hh:mm:ss" 的形式
+  timestamp: function (value) {
+    if ((typeof value) === 'string') {
+      return value.slice(0, 4) + '-' + value.slice(4, 6) + '-' + value.slice(6, 8) + '  ' + value.slice(8, 10) + ':' + value.slice(10, 12) + ':' + value.slice(12, 14)
+    } else {
+      return '——'
+    }
+  }
+}
+
+//将五个函数作为模块的输出供其他代码使用
+module.exports = {
+  toFixPrice: filters.toFixPrice,
+  toFixOfferName: filters.toFixOfferName,
+  toFixOfferSpec: filters.toFixOfferSpec,
+  timestamp: filters.timestamp,
+  toJSON:filters.toJSON
+}

@@ -1,0 +1,86 @@
+<wxs module="filter" src="../../utils/filter.wxs"></wxs>
+<cu-custom bgColor="bg-gradual-pink"  isBack="{{false}}">
+ <view slot="content">购物车</view>
+</cu-custom>
+
+<view class="shoppingcart-null" wx:if="{{list.length == 0}}">
+
+  <text class="shoppingcart-null-text">购物车空空如也~</text>
+  <view class="shoppingcart-null-button" bind:tap="toGoodsList">去逛逛</view>
+</view>
+  <checkbox-group  bindchange="checkboxChange">
+<view class="cu-list menu-avatar">
+    <view class="cu-item my-border-bottom {{modalName=='move-box-'+ index?'move-cur':''}}" wx:for="{{list}}" bindtouchstart="ListTouchStart" bindtouchmove="ListTouchMove" bindtouchend="ListTouchEnd" data-target="move-box-{{index}}" data-id="{{item.id}}">
+      <checkbox style="position: absolute;left:10rpx;margin-right:10rpx" value="{{item.id}}" checked="true" />
+      <view class="cu-avatar margin-lr-xl round lg" style="background-image:url({{rootImgUrl+item.goods.mainPic}});"></view>
+      <view class="content " style="left:250rpx">
+        <view class="text-grey">{{item.goodsName}}</view>
+        <text class="text-price text-red">{{item.price}}</text>
+      </view>
+    
+      <view class="content" style="left:90%">
+        <view class="text-grey">数量</view>
+        <view class="cu-tag round bg-pink sm">{{item.goodsNum}}</view>
+      </view>
+      <view class="move">
+        <view class="bg-red" data-id="{{item.id}}" catchtap="deleteCart">删除</view>
+      </view>
+    </view>
+</view>
+  </checkbox-group>
+
+<view class="shoppingcart-pay" wx:if="{{list.length >0}}">
+  <view class="price-pay-container">
+    <view class="price">
+      <text class="money text-xxl ">¥</text>
+      <text class="number text-xxl ">{{filter.toFixPrice(totalPrice ?  totalPrice : 0)}}</text>
+    </view>
+    <view class="pay-button" bind:tap="addOrderModel" data-target="address">提交订单</view>
+
+  </view>
+</view>
+
+
+  <!-- 点击立即订购弹出收货地址 -->
+  <view class="cu-modal {{modalName=='address'?'show':''}}">
+      <view class="cu-dialog">
+        <view class="cu-bar bg-white justify-end">
+          <view class="content">请选择收货地址</view>
+          <view class="action" bindtap="hideModal">
+            <text class="cuIcon-close text-red"></text>
+          </view>
+        </view>
+        <scroll-view class="padding-xl " style="max-height: calc(100vh - 600rpx);padding-bottom: 80rpx;" scroll-y="true"> 
+          <radio-group bindchange="radioChange">
+            <view  wx:for="{{addressList}}"  wx:key="index" data-id="{{item.id}}"  class="myaddressItem">
+              <view>
+                <label class="radio">
+                  <radio value="{{item.id}}" checked="{{item.isDefault==1}}"/>
+                </label>
+              </view>
+              <view class="mycontent">
+                <view class="text-grey">{{item.receiverName+' , '+item.mobile}}</view>
+                <view class="text-gray text-sm">
+                  <view  wx:if="{{item.isDefault==1}}">
+                    <text class="cuIcon-locationfill text-blue">默认  {{item.address}}</text> 
+                  </view>
+                  <view  wx:if="{{item.isDefault!=1}}">
+                    {{item.address}}
+                  </view>
+                </view>
+              </view>
+            </view>
+          </radio-group>  
+        </scroll-view>
+        <view class="cu-bar bg-white justify-end">
+          <view class="myaction"  style="display: flex;flex-direction: row;">
+            <button class="cu-btn line-green text-green" bindtap="hideModal">取消</button>
+            <button class="cu-btn bg-green margin-left" bindtap="toOrder">确定</button>
+          </view>
+        </view>
+      </view>
+    </view>
+
+
+
+  

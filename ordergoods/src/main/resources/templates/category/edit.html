@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="admin/public/head::head(~{::title},~{},~{})">
+    <title>编辑分类-花颜蜜语鲜花店后台</title>
+</head>
+
+<body>
+<style type="text/css">
+    .layui-form-item {
+        margin-bottom: 30px;
+        clear: both;
+        *zoom: 1;
+        width: 100%;
+        display: flex;
+        justify-content: center;
+    }
+    .layui-form-item>div{
+        width: 80%;
+    }
+
+    .layui-form-item .layui-input-inline {
+        float: left;
+        width: 80%;
+        margin-right: 10px;
+    }
+</style>
+<div class="weadmin-body">
+    <form class="layui-form layui-form-pane my-two-form" id="form" enctype="multipart/form-data">
+        <input type="hidden" name="id" th:value="${category.id}"/>
+        <div class="layui-form-item">
+            <label for="name" class="layui-form-label">
+                <span class="we-red">*</span>名称
+            </label>
+            <div class="layui-input-inline">
+                <input type="text" id="name" name="name" th:value="${category.name}" required lay-verify="required"
+                       placeholder="名称" autocomplete="off"  class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label for="code" class="layui-form-label">
+                <span class="we-red">*</span>编号
+            </label>
+            <div class="layui-input-inline">
+                <input type="text" id="code" name="code" th:value="${category.code}" required lay-verify="required"
+                       placeholder="编号" autocomplete="off"  class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label for="remark" class="layui-form-label">
+                <span class="we-red">*</span>备注
+            </label>
+            <div class="layui-input-inline">
+                <input type="text" id="remark" name="remark" th:value="${category.remark}" required lay-verify="required"
+                       placeholder="备注" autocomplete="off"  class="layui-input">
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <button style="width: 200px" class="layui-btn" lay-filter="edit" lay-submit>修改</button>
+        </div>
+    </form>
+</div>
+<script type="text/javascript">
+    layui.use(['form', 'layer','upload', 'jquery','laydate', 'admin'], function () {
+        var form = layui.form,
+            $ = layui.jquery,
+            laydate = layui.laydate,
+            upload = layui.upload,
+            layer = layui.layer;
+
+
+        //监听提交
+        form.on('submit(edit)', function (data) {
+            console.log(data.field);
+            var formData = new FormData($("#form")[0]);
+            $.ajax({
+                url: "/category/edit",
+                type: "post",
+                data: formData,
+                processData: false,
+                contentType: false,
+                beforeSend: function(){
+                    //返回的参数item，即为当前的input DOM对象
+                    index = layer.load(1,{shade: [0.3,'grey']});
+                },
+                success: function (res) {
+                    //关闭遮罩层
+                    layer.close(index);
+                    if (res.success == true) {
+                        layer.msg(res.msg, {icon: 1, time: 1500},function () {
+                            refreshParent();
+                        });
+                    } else {
+                        layer.msg(res.msg, {icon: 2, time: 1500});
+                    }
+                },
+                error: function (res) {
+                    layer.msg(res, {icon: 2, time: 1500});
+                },
+                complete: function () {
+                }
+            });
+            return false;
+        });
+    });
+
+</script>
+</body>
+
+</html>

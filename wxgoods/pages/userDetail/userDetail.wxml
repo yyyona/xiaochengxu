@@ -1,0 +1,29 @@
+<wxs module="filter" src="../../utils/filter.wxs"></wxs>
+<cu-custom bgColor="bg-gradual-pink" isCustom="{{true}}">
+  <view slot="backText">返回</view>
+  <view slot="content">个人中心</view>
+</cu-custom>
+
+<view class="cu-list menu card-menu margin-top-xl margin-bottom-xl shadow-lg radius bg-white">
+  <view class="cu-item" >
+        <text>微信昵称：</text>
+        <text>{{uerDataObj.wxNick}}</text>
+    </view>
+    <view class="cu-item" >
+      <text>真实名字：</text>
+      <text>{{!uerDataObj.name?'未知':uerDataObj.name}}</text>
+    </view>
+    <view class="cu-item" >
+      <text>联系方式：</text>
+      <text>{{!uerDataObj.mobile?'未知':uerDataObj.mobile}}</text>
+    </view>
+    <view class="cu-item" >
+      <text>年龄：</text>
+      <text>{{!uerDataObj.age?'未知':uerDataObj.age}}</text>
+    </view>
+
+   
+</view>
+<view class='padding-xl'>
+  <button class='cu-btn  bg-gradual-pink shadow lg block' bindtap="ToEdit" >修改</button>
+</view>

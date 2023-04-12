@@ -1,0 +1,102 @@
+.shoppingcart-null {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.shoppingcart-null-image {
+  margin-top: 72rpx;
+  width: 322rpx;
+  height: 310rpx;
+}
+
+.shoppingcart-null-text {
+  margin-top: 49rpx;
+  font-size: 30rpx;
+  color: #1D1D1D;
+}
+
+.shoppingcart-null-button {
+  margin-top: 70rpx;
+  width: 192rpx;
+  height: 90rpx;
+  border: 1px solid #52C68C;
+  background-color: #fff;
+  font-size: 32rpx;
+  color: #52C68C;
+  border-radius: 4rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.shoppingcart-pay {
+  width: 100%;
+  height: 100rpx;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  background-color: #fff;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  z-index: 99;
+}
+
+.price-pay-container {
+  display: flex;
+  align-items: center;
+}
+
+.price-pay-container .price {
+  min-width: 175rpx;
+  max-width: 350rpx;
+  height: 100rpx;
+  font-size: 28rpx;
+  color: #52C68C;
+  display: flex;
+  align-items: center;
+  margin-right: 20rpx;
+}
+
+.price-pay-container .price .number {
+  margin-left: 10rpx;
+}
+
+.price-pay-container .pay-button {
+  width: 200rpx;
+  height: 100rpx;
+  background-color: #52C68C;
+  font-size: 32rpx;
+  color: #FFFFFF;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.cu-bar.tabbar.shop .myaction {
+  width: 280rpx;
+  flex: initial;
+}
+.myaddressItem{
+  display: flex;
+  align-items: center;
+  flex-direction: row;
+  
+}
+radio-group {
+  display: block;
+  padding-left: 10rpx;
+  background-color:white;
+}
+.mycontent{
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  margin: 10rpx 0;
+  background-color:white;
+}
+.mycontent view{
+  margin: 6rpx 0;
+  padding: 2rpx 0rpx 2rpx 10rpx;
+}

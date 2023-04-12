@@ -1,0 +1,38 @@
+var date={
+  formatDateTime:function(strDate){
+    var year = date.getFullYear()
+    var month = date.getMonth() + 1
+    var day = date.getDate()
+    var hour = date.getHours()
+    var minute = date.getMinutes()
+    var second = date.getSeconds()
+
+    return [year, month, day].map(formatNumber).join('-') + ' ' + [hour, minute, second].map(formatNumber).join(':')
+  },
+  formatDate: function (strDate){
+    var realDate = strDate ? getDate(strDate.replace(getRegExp('-', 'g'), '/')) : getDate();
+    var year = realDate.getFullYear()
+    var month = realDate.getMonth() + 1
+    var day = realDate.getDate()
+
+    return [year, month, day].map(formatNumber).join('-')
+  },
+  formatTime: function (strDate){
+    var realDate = strDate ? getDate(strDate.replace(getRegExp('-', 'g'), '/')) : getDate();
+    var hour = realDate.getHours()
+    var minute = realDate.getMinutes()
+    var second = realDate.getSeconds()
+
+    return [hour, minute, second].map(formatNumber).join(':')
+  }
+} 
+var formatNumber=function (n) {
+  n = n.toString()
+    return n[1] ?n: '0' + n
+  }
+
+module.exports = {
+  formatDateTime: date.formatDateTime,
+  formatDate: date.formatDate,
+  formatTime: date.formatTime
+}

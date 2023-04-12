@@ -1,0 +1,61 @@
+/* pages/order/order.wxss */
+.orderContainer{
+  margin-top:115rpx;
+  max-height: calc(100vh - 275rpx);
+  background-color: white
+}
+.shoppingcart-pay {
+  width: 100%;
+  height: 100rpx;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  background-color: #fff;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  z-index: 99;
+}
+
+.price-pay-container {
+  display: flex;
+  align-items: center;
+}
+
+.price-pay-container .price {
+  min-width: 175rpx;
+  max-width: 350rpx;
+  height: 100rpx;
+  font-size: 28rpx;
+  color: #52C68C;
+  display: flex;
+  align-items: center;
+  margin-right: 20rpx;
+}
+
+.price-pay-container .price .number {
+  margin-left: 10rpx;
+}
+
+.price-pay-container .pay-button {
+  width: 200rpx;
+  height: 100rpx;
+  background-color: #52C68C;
+  font-size: 32rpx;
+  color: #FFFFFF;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.float-right{
+  float:right
+}
+.appraiseContainer{
+  display:flex;
+  justify-content:space-around
+
+}
+.appraiseContainer image{
+  width: 50rpx;
+  height:50rpx
+}

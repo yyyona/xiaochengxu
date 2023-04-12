@@ -1,0 +1,106 @@
+<!--pages/goodsDetail/goodsDetail.wxml-->
+<cu-custom bgColor="bg-gradual-pink" isCustom="{{true}}">
+  <view slot="backText">返回</view>
+  <view slot="content">商品详情</view>
+</cu-custom>
+<!-- 商品图轮播 -->
+<swiper class="screen-swiper {{DotStyle?'square-dot':'round-dot'}}" indicator-dots="true" circular="true" autoplay="true" interval="5000" duration="500">
+
+  <swiper-item>
+    <image  src='{{rootImgUrl+goods.mainPic}}'></image>
+  </swiper-item>
+    <swiper-item>
+    <image  src='{{rootImgUrl+goods.subPic1}}'></image>
+  </swiper-item>
+    <swiper-item>
+    <image  src='{{rootImgUrl+goods.subPic2}}'></image>
+  </swiper-item>
+  <swiper-item>
+    <image src='{{rootImgUrl+goods.subPic3}}'></image>
+  </swiper-item>
+    <swiper-item>
+    <image src='{{rootImgUrl+goods.subPic4}}'></image>
+  </swiper-item>
+</swiper>
+<view class="cu-bar bg-white solid-bottom margin-top">
+  <view class='action'>
+    {{goods.name}}
+  </view>
+  <view class='action text-orange'>
+    {{'￥'+goods.price}}
+  </view>
+</view>
+
+<view class="cu-bar bg-white solid-bottom margin-top">
+  <view class='action'>
+    数量
+  </view>
+</view>
+<view class="numContainer">
+  <span catchtap="handleMin">-</span>
+  <input value="{{chooseNumber}}" bindblur="changeNum"/>
+  <span catchtap="handleAdd">+</span>
+  <view class="numright"></view>
+</view>
+
+<view class="cu-bar bg-white margin-top-xs text-sm padding-tb-sm" style="min-height:200rpx;margin-bottom:100rpx">
+  <view class='action'>
+    <text>{{goods.content}}</text>
+  </view>
+</view>
+
+<view class="cu-bar bg-white tabbar border shop foot" style="bottom:0px;">
+ <button class="action" catchtap="toPageIndex">
+    <view class="cuIcon-homefill text-grey">
+    </view>
+    首页
+  </button>
+  <view class="action" catchtap="toCart">
+    <view class="cuIcon-cart">
+      <view class="cu-tag badge">{{cartNum}}</view>
+    </view>
+    购物车
+  </view>
+  <view class="bg-gradual-blue submit" catchtap="addCart">加入购物车</view>
+<view class="bg-gradual-red submit" catchtap="addOrderModel" data-target="address">立即订购</view>
+  <!-- 点击立即订购弹出收货地址 -->
+  <view class="cu-modal {{modalName=='address'?'show':''}}">
+      <view class="cu-dialog">
+        <view class="cu-bar bg-white justify-end">
+          <view class="content">请选择收货地址</view>
+          <view class="action" bindtap="hideModal">
+            <text class="cuIcon-close text-red"></text>
+          </view>
+        </view>
+        <scroll-view class="padding-xl " style="max-height: calc(100vh - 600rpx);padding-bottom: 80rpx;" scroll-y="true"> 
+          <radio-group bindchange="radioChange">
+            <view  wx:for="{{addressList}}"  wx:key="index" data-id="{{item.id}}"  class="myaddressItem">
+              <view>
+                <label class="radio">
+                  <radio value="{{item.id}}" checked="{{item.isDefault==1}}"/>
+                </label>
+              </view>
+              <view class="mycontent">
+                <view class="text-grey">{{item.receiverName+' , '+item.mobile}}</view>
+                <view class="text-gray text-sm">
+                  <view  wx:if="{{item.isDefault==1}}">
+                    <text class="cuIcon-locationfill text-blue">默认  {{item.address}}</text> 
+                  </view>
+                  <view  wx:if="{{item.isDefault!=1}}">
+                    {{item.address}}
+                  </view>
+                </view>
+              </view>
+            </view>
+          </radio-group>  
+        </scroll-view>
+        <view class="cu-bar bg-white justify-end">
+          <view class="myaction" style="display: flex;flex-direction: row;">
+            <button class="cu-btn line-green text-green" bindtap="hideModal">取消</button>
+            <button class="cu-btn bg-green margin-left" bindtap="addOrder">确定</button>
+          </view>
+        </view>
+      </view>
+    </view>
+
+</view>
