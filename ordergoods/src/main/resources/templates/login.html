@@ -1,0 +1,81 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="admin/public/head::head(~{::title},~{},~{})">
+    <title>管理员登录-花颜蜜语鲜花店后台</title>
+</head>
+<body class="login-bg" style="display: flex;flex-direction: column;align-items: center">
+<style>
+    .login-bg {
+        /*background: url(../images/bg.png) no-repeat center;*/
+        background-attachment: fixed;
+        background-repeat:no-repeat;
+        background: url("/common/images/bg4.jpg") no-repeat ;
+        background-size: 100% ;
+        /*background-size: cover;*/
+        overflow: hidden;
+        opacity: 0.7;
+    }
+    .login .message {
+        margin: 0px;
+        padding: 18px 10px 18px 60px;
+        background: #8A2BE2;
+        position: relative;
+        color: #fff;
+        font-size: 22px;
+    }
+</style>
+<div class="login" style="width: 40%;margin: auto;">
+    <div class="message">花颜蜜语鲜花店后台</div>
+    <form method="post" class="layui-form">
+        <input name="code" placeholder="登录账号" type="text" lay-verify="required" class="layui-input">
+        <hr class="hr15">
+        <input name="password" lay-verify="required|password" placeholder="密码" type="password" class="layui-input">
+        <hr class="hr15">
+        <input name="verifyCode" class="layui-input" placeholder="验证码" lay-verify="required|verify_code" type="text">
+        <hr class="hr15">
+        <img id="verify" onclick="refreshVerify()" th:src="@{/common/verifyCode/getVerifyCode}">
+        <button onclick="refreshVerify('verify')" type="button" class="layui-btn">刷新</button>
+        <hr class="hr15">
+
+        <input class="loginin" value="登录" lay-submit lay-filter="login" style="width:100%;background: #8A2BE2;" type="submit">
+
+        <hr class="hr20">
+    </form>
+</div>
+
+<script type="text/javascript">
+    layui.use(['form', 'admin'], function () {
+        var form = layui.form
+            , admin = layui.admin;
+
+        form.on('submit(login)', function (data) {
+            var url="/user/checkLogin";
+            $.post(url, data.field, function (res) {
+                console.log(res);
+                if (!res.success) {
+                    layer.msg(res.msg, {icon: 2, time: 1500});
+                    return false;
+                }
+                location.href = '/admin/index';
+            });
+            return false;
+        });
+
+        //自定义表单验证
+        form.verify({
+            //既支持上述函数式的方式，也支持下述数组的形式
+            //数组的两个值分别代表：[正则匹配、匹配不符时的提示文字]
+            password: [
+                /^[\S]{6,16}$/
+                , '密码必须6到16位，且不能出现空格'
+            ],
+            verify_code: [
+                /^.{4}$/
+                , '验证码为4位字符！'
+            ]
+        });
+    });
+</script>
+<!-- 底部结束 -->
+</body>
+</html>

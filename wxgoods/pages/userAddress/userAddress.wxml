@@ -1,0 +1,118 @@
+<!--pages/userAddress.wxml-->
+<cu-custom bgColor="bg-gradual-pink" isBack="{{true}}">
+    <view slot="backText">返回</view>
+    <view slot="content">收货地址列表</view>
+  </cu-custom>
+
+<view class="cu-bar bg-white solid-bottom margin-top">
+    <view class="action" bindtap="addUserAddress" data-target="address">
+      <text class="cuIcon-title text-orange "></text> 添加收货地址
+    </view>
+  </view>
+  <view class="cu-list menu-avatar">
+    <view class="cu-item {{modalName=='move-box-'+ index?'move-cur':''}}" wx:for="{{list}}"  wx:key="index" data-id="{{item.id}}"  bindtouchstart="ListTouchStart" bindtouchmove="ListTouchMove" bindtouchend="ListTouchEnd" data-target="move-box-{{index}}">
+      <view class="cu-avatar round lg" style="background-image:url(https://ossweb-img.qq.com/images/lol/web201310/skin/big2100{{index+1}}.jpg);"></view>
+      <view class="content">
+        <view class="text-grey">{{item.receiverName+' , '+item.mobile}}</view>
+        <view class="text-gray text-sm">
+          <view  wx:if="{{item.isDefault==1}}">
+            <text class="cuIcon-locationfill text-blue">默认  {{item.address}}</text> 
+          </view>
+          <view  wx:if="{{item.isDefault!=1}}">
+             {{item.address}}
+          </view>
+        </view>
+      </view>
+      
+      <view class="move">
+        <view class="bg-grey" bindtap="setDefault"  data-id="{{item.id}}">默认</view>
+        <view class="bg-blue" bindtap="editAddressShow"  data-item="{{item}}">编辑</view>
+        <view class="bg-red" bindtap="delUserAddress"  data-id="{{item.id}}">删除</view>
+      </view>
+    </view>
+
+    <view class="cu-modal {{modalName=='address'?'show':''}}">
+      <view class="cu-dialog">
+        <view class="cu-bar bg-white justify-end">
+          <view class="content">请添加收货地址</view>
+          <view class="action" bindtap="hideModal">
+            <text class="cuIcon-close text-red"></text>
+          </view>
+        </view>
+        <view class="padding-xl">
+          <view class="cu-form-group">
+            <view class="title">收货人</view>
+            <input name="receiverName" bindinput="changeReceiverName" placeholder="请输入用户名称"></input>
+          </view>
+          <view class="cu-form-group">
+            <view class="title">联系方式</view>
+            <input name="mobile" bindinput="changeMobile" placeholder="请输入收货人电话"></input>
+          </view>
+          <view class="cu-form-group">
+            <view class="title">地址选择</view>
+            <picker mode="region" bindchange="RegionChange" value="{{region}}" custom-item="{{customItem}}">
+              <view class="picker">
+                {{region[0]}}，{{region[1]}}，{{region[2]}}
+              </view>
+            </picker>
+          </view>
+          <view class="cu-form-group">
+            <view class="title">详细地址</view>
+            <input name="detailAddress" bindinput="changeDetailAddress" placeholder="请输入详细地址"></input>
+          </view>
+
+        <view class="cu-bar bg-white justify-end">
+          <view class="action">
+            <button class="cu-btn line-green text-green" bindtap="hideModal">取消</button>
+            <button class="cu-btn bg-green margin-left" bindtap="confrimAddAddress">确定</button>
+
+          </view>
+        </view>
+        </view>
+      </view>
+
+    </view>
+
+
+    <view class="cu-modal {{modalName=='editAddress'?'show':''}}">
+      <view class="cu-dialog">
+        <view class="cu-bar bg-white justify-end">
+          <view class="content">请编辑收货地址</view>
+          <view class="action" bindtap="hideModal">
+            <text class="cuIcon-close text-red"></text>
+          </view>
+        </view>
+        <view class="padding-xl">
+          <view class="cu-form-group">
+            <view class="title">收货人</view>
+            <input name="receiverName" value="{{currReceiverName}}" bindinput="changeReceiverName" placeholder="请输入用户名称"></input>
+          </view>
+          <view class="cu-form-group">
+            <view class="title">联系方式</view>
+            <input name="mobile" value="{{currMobile}}" bindinput="changeMobile" placeholder="请输入收货人电话"></input>
+          </view>
+          <view class="cu-form-group">
+            <view class="title">地址选择</view>
+            <picker mode="region" bindchange="RegionChange" value="{{region}}" custom-item="{{customItem}}">
+              <view class="picker">
+                {{region[0]}}，{{region[1]}}，{{region[2]}}
+              </view>
+            </picker>
+          </view>
+          <view class="cu-form-group">
+            <view class="title">详细地址</view>
+            <input name="detailAddress" value="{{detailAddress}}" bindinput="changeDetailAddress" placeholder="请输入详细地址"></input>
+          </view>
+
+        <view class="cu-bar bg-white justify-end">
+          <view class="action">
+            <button class="cu-btn line-green text-green" bindtap="hideModal">取消</button>
+            <button class="cu-btn bg-green margin-left" bindtap="confrimEditAddress">确定</button>
+
+          </view>
+        </view>
+        </view>
+      </view>
+
+    </view>
+  </view>

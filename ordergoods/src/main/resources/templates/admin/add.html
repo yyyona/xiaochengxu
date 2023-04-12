@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="admin/public/head::head(~{::title},~{},~{})">
+    <title>管理员添加-花颜蜜语鲜花店后台</title>
+</head>
+
+<body>
+<style>
+    .weadmin-body {
+        padding: 20px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+</style>
+<div class="weadmin-body" >
+    <form class="layui-form layui-form-pane">
+        <div class="layui-form-item">
+            <label for="name" class="layui-form-label">
+                <span class="we-red">*</span>姓名
+            </label>
+            <div class="layui-input-inline">
+                <input type="text" id="name" name="name" required lay-verify="required"
+                       placeholder="姓名" autocomplete="off"  class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label for="userCode" class="layui-form-label">
+                <span class="we-red">*</span>账号
+            </label>
+            <div class="layui-input-inline">
+                <input type="text" id="userCode" name="userCode" required lay-verify="required"
+                       placeholder="账号" autocomplete="off"  class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label for="mobile" class="layui-form-label">
+                <span class="we-red">*</span>手机号
+            </label>
+            <div class="layui-input-inline">
+                <input type="text"  id="mobile" name="mobile" required lay-verify="phone"
+                       placeholder="手机号" autocomplete="off" class="layui-input">
+            </div>
+            <div class="layui-form-mid layui-word-aux">
+                <span class="we-red">*</span>将会成为您唯一的登入名
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label for="L_pass" class="layui-form-label">
+                <span class="we-red">*</span>密码
+            </label>
+            <div class="layui-input-inline">
+                <input type="password" id="L_pass" name="password" lay-verify="required"
+                       placeholder="登录密码必填" autocomplete="off" class="layui-input">
+            </div>
+            <div class="layui-form-mid layui-word-aux">
+                6到16个字符
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label for="L_repass" class="layui-form-label">
+                <span class="we-red">*</span>确认密码
+            </label>
+            <div class="layui-input-inline">
+                <input type="password" id="L_repass" required lay-verify="repass"
+                       placeholder="再次输入新密码" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <button style="width: 200px;margin-left: 20%" class="layui-btn" lay-filter="add" lay-submit>添加</button>
+        </div>
+    </form>
+</div>
+<script type="text/javascript">
+    layui.use(['form', 'layer', 'jquery', 'admin'], function () {
+        var form = layui.form,
+            $ = layui.jquery,
+            layer = layui.layer;
+
+        //自定义验证规则
+        form.verify({
+            pass: [/(.+){6,12}$/, '密码必须6到12位']
+            , repass: function (value) {
+                if ($('#L_pass').val() != $('#L_repass').val()) {
+                    return '两次密码不一致';
+                }
+            }
+        });
+
+        //监听提交
+        form.on('submit(add)', function (data) {
+            $.post("/admin/add", data.field, function (res) {
+                if (res.success) {
+                    layer.alert("添加成功", {icon: 6}, function () {
+                        refreshParent();
+                    });
+                } else {
+                    layer.msg(res.msg, {icon: 5, time: 1500});
+                }
+            });
+            return false;
+        });
+    });
+</script>
+</body>
+
+</html>

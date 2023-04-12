@@ -1,0 +1,59 @@
+/* pages/goodsDetail/goodsDetail.wxss */
+swiper {
+  display: block;
+  height: 500rpx;
+}
+.numContainer{
+  padding: 0rpx 20rpx;
+  background-color: white;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+.numContainer button{
+  width: 80rpx;
+  height: 80rpx; 
+
+}
+.numright{
+  width: 90%;
+}
+.numContainer input{
+  padding: 0rpx 10rpx;
+  width: 80rpx;
+  height: 80rpx;
+  border: solid rgb(218, 215, 215) 3rpx;
+  text-align: center;
+}
+.numContainer span{
+  padding: 0rpx 20rpx;
+  font-size: 60rpx;
+}
+.mycontent{
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  margin: 10rpx 0;
+  background-color:white;
+}
+.mycontent view{
+  margin: 6rpx 0;
+  padding: 2rpx 0rpx 2rpx 10rpx;
+}
+.cu-bar.tabbar.shop.myaction {
+  width: 280rpx;
+  flex: initial;
+}
+.myaddressItem{
+  display: flex;
+  align-items: center;
+  flex-direction: row;
+  
+}
+radio-group {
+  display: block;
+  padding-left: 10rpx;
+  background-color:white;
+}

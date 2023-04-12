@@ -1,0 +1,36 @@
+<view class="indexContainer">
+<cu-custom bgColor="bg-gradual-pink" isBack="{{false}}">
+  <view slot="content">花颜蜜语鲜花店</view>
+</cu-custom>
+<swiper class="screen-swiper {{DotStyle?'square-dot':'round-dot'}}" indicator-dots="true" circular="true" autoplay="true" interval="5000" duration="500">
+
+  <swiper-item>
+    <image data-detailId="1" src='../../images/guangg1.jpg'></image>
+</swiper-item>
+    <swiper-item>
+      <image data-detailId="2" src='../../images/guangg2.jpg'></image>
+   </swiper-item>
+    <swiper-item>
+    <image data-detailId="3" src='../../images/guangg3.jpg'></image>
+  </swiper-item>
+</swiper>
+
+<view class="cu-bar bg-white  margin-top solids-bottom" style="justify-content:center">
+    <text class="text-xl">店家直供·专人专车·品质保障</text> 
+</view> 
+<view class="cu-bar bg-white  margin-top solids-bottom" style="justify-content:center">
+    <text class="text-xl">新品推荐</text> 
+</view>  
+<view class="goodsContainer cu-form-group" >
+  <view catchtap="toGoodsDetail" class="goodschild" data-id="{{item.id}}"  wx:for="{{goodsList}}" wx:key="id">
+    <image class="headerImage" src="{{rootImgUrl+item.mainPic}}"></image>
+    <view class="content">
+      <text class="userName">{{item.name}}</text>
+      <text class="userDesc text-purple">价格：{{'￥'+item.price}}</text>
+    </view>
+  </view>
+</view>
+<view class="nodata" wx:if="{{list.length==0}}">
+  <image src="{{rootUrl}}/images/background/nodata.png"></image>
+</view>
+</view>

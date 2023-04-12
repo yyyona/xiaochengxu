@@ -1,0 +1,23 @@
+<!--pages/login/login.wxml-->
+<cu-custom bgColor="bg-gradual-pink" isCustom="{{true}}">
+  <view slot="backText">返回</view>
+  <view slot="content">修改个人信息</view>
+</cu-custom>
+<form bindsubmit="formSubmit" bindreset="formReset" >
+  <view class="cu-form-group" style="margin-top:30rpx;">
+		<view class="title">真实名字</view>
+		<input name="name" placeholder="请输入用户名称"></input>
+  </view>
+  <view class="cu-form-group" >
+		<view class="title">联系方式</view>
+		<input name="mobile" placeholder="请输入联系方式"></input>
+  </view>
+  <view class="cu-form-group" >
+		<view class="title">年龄</view>
+		<input name="age" placeholder="请输入年龄"></input>
+  </view>
+
+<view class='padding-xl'>
+  <button class='cu-btn  bg-gradual-pink shadow lg block' id="submit" formType="submit" >提交</button>
+</view>
+</form>

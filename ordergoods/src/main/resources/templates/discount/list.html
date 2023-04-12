@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="admin/public/head::head(~{::title},~{::script},~{::style})">
+    <title>折扣活动列表-微信小程序商城后台</title>
+    <!-- 让IE8/9支持媒体查询，从而兼容栅格 -->
+    <!--[if lt IE 9]>
+    <script src="https://cdn.staticfile.org/html5shiv/r29/html5.min.js"></script>
+    <script src="https://cdn.staticfile.org/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    <style>
+        .avatar {
+            height: 100px;
+        }
+        .layui-table td, .layui-table th {
+            position: relative;
+            padding: 5px 4px;
+            min-height: 20px;
+            line-height: 20px;
+            font-size: 14px;
+            text-align: center;
+        }
+        .weadmin-body {
+            padding: 10px;
+        }
+    </style>
+</head>
+
+<body>
+<div class="weadmin-nav">
+    <span class="layui-breadcrumb">
+        <a href="">首页</a>
+        <a href="">折扣管理</a>
+        <a>
+          <cite>折扣列表</cite></a>
+      </span>
+    <a class="layui-btn layui-btn-sm" style="line-height:1.6em;margin-top:3px;float:right"
+       href="javascript:location.replace(location.href);" title="刷新">
+        <i class="layui-icon" style="line-height:30px">&#xe666;</i></a>
+</div>
+<div class="weadmin-body" id="app" v-cloak>
+    <div class="weadmin-block layui-form">
+        <button  style="float: left;" class="layui-btn layui-btn-danger" onclick="updateAll('delete')"><i class="layui-icon"></i>批量删除</button>
+        <form style="float: left;" class="layui-form we-search">
+            <div class="layui-inline" style="margin-left: 3px">
+                <input type="text" v-model="searchParam.name" name="name"  placeholder="活动名称" autocomplete="off" class="layui-input">
+            </div>
+            <button class="layui-btn" lay-submit lay-filter="search"><i class="layui-icon">&#xe615;</i></button>
+        </form>
+        <span class="fr" style="line-height:40px">共有数据：{{total}} 条</span>
+    </div>
+    <table class="layui-table">
+        <thead>
+        <tr>
+            <th>
+                <div class="layui-unselect header layui-form-checkbox" lay-skin="primary">
+                    <i class="layui-icon">&#xe605;</i>
+                </div>
+            </th>
+            <th>折扣活动</th>
+            <th>商品名称</th>
+            <th>商品折扣</th>
+            <th>开始时间</th>
+            <th>结束时间</th>
+            <th>创建时间</th>
+            <th>操作</th>
+        </thead>
+        <tbody>
+        <tr v-for="item in discountList">
+            <td>
+                <div class="layui-unselect layui-form-checkbox" lay-skin="primary" :data-id="item.id">
+                    <i class="layui-icon">&#xe605;</i>
+                </div>
+            </td>
+            <td>{{item.name}}</td>
+            <td>{{item.goodsName}}</td>
+            <td>{{item.discount}}</td>
+            <td>{{item.beginDate}}</td>
+            <td>{{item.endDate}}</td>
+            <td>{{item.createTime}}</td>
+            <td class="td-manage">
+                <a  title="删除" @click="softDel(item.id)" href="javascript:;">
+                    <i class="layui-icon">&#xe640;</i>
+                </a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+    <div class="page">
+        <div id="laypage"></div>
+    </div>
+</div>
+</body>
+<script src="/static/common/plugs/vue/vue.js" type="text/javascript"></script>
+<script type="text/javascript">
+
+    function initLayui() {
+        layui.use(['jquery', 'admin', 'form', 'laypage'], function () {
+            var laydate = layui.laydate
+                , $ = layui.jquery
+                , laypage = layui.laypage
+                , form = layui.form;
+
+            //执行一个laypage实例
+            laypage.render({
+                elem: 'laypage' //注意，这里的 test1 是 ID，不用加 # 号
+                , count: app.$data.total //数据总数，从服务端得到
+                , limits: [10, 20, 40, 60, 80, 100] //每页条数的选择项。如果 layout 参数开启了 limit，则会出现每页条数的select选择框
+                , layout: ['count', 'prev', 'page', 'next', 'limit', 'skip']
+                , jump: function (obj, first) {
+                    app.$data.pageSize = obj.limit;
+                    app.$data.pageNum = obj.curr;
+                    //首次不执行
+                    if (!first) {
+                        getDiscountList();
+                    }
+                }
+            });
+
+            /**
+             * 监听搜索按钮
+             */
+            form.on("submit(search)", function (data) {
+                app.$data.searchParam = data.field;
+                app.$data.initLayui = false;
+                getDiscountList();
+                return false;
+            });
+
+            /**
+             * 监听批量更新操作按钮
+             */
+            form.on("submit(batchUpdateBtn)", function (data) {
+                if (data.field.updateType == "") {
+                    layer.msg("请选择批量操作的类型", {icon: 2, time: 1000});
+                    return false;
+                } else {
+                    updateAll(data.field.updateType);
+                }
+            })
+            //遍历列表，当非管理员登录时，如果当前登录折扣与列表data-order-id不相等，则隐藏编辑按钮
+            // changeUserEdit();
+        });
+    }
+
+    /*软删除*/
+    window.softDel = function (id) {
+        layer.confirm('确认要删除吗？', function (index) {
+            var array = new Array();
+            array.push(id)
+            //发异步删除数据
+            $.post("/discount/delete", {"idList": array.join(","), deleteTime: getNowTimeStr()}, function (res) {
+                console.log(res);
+                if (res.success) {
+                    layer.msg('已删除!', {
+                        icon: 1,
+                        time: 1000
+                    });
+                    setTimeout(refresh, 1000);
+                } else {
+                    layer.msg(res.msg, {
+                        icon: 2,
+                        time: 1000
+                    });
+                }
+            });
+        });
+    };
+
+    /*批量操作*/
+    window.updateAll = function (argument) {
+        var data = tableCheck.getData();
+        var requestData;
+        var title;
+        switch (argument) {
+            //批量删除
+            case 'delete':
+                requestData = {
+                    idList: data.join(',')
+                    , deleteTime: getNowTimeStr()
+                };
+                title = "删除";
+                break;
+            default:
+                requestData = {
+                    idList: data.join(',')
+                    , deleteTime: getNowTimeStr()
+                };
+                title = "删除";
+                break;
+        }
+        if (data.length <= 0) {
+            return layer.msg("请选择要批量" + title + "的折扣！", {icon: 2, time: 1500});
+        }
+
+        layer.confirm('确认要批量' + title + data.length + '个折扣吗？', function (index) {
+            //捉到所有被选中的，发异步进行删除
+            $.post("/discount/delete", requestData, function (res) {
+                console.log(res);
+                if (res.success) {
+                    layer.msg('批量' + title + '成功', {
+                        icon: 1, time: 1500
+                    });
+                    if (argument == 'delete') {
+                        $(".layui-form-checked").not('.header').parents('tr').remove();
+                        $(".layui-unselect.header.layui-form-checkbox.layui-form-checked").attr("class","layui-unselect header layui-form-checkbox");
+                    } else {
+                        setTimeout(refresh, 1500)
+                    }
+
+                }
+            });
+        });
+    };
+
+
+    /**
+     * 服务器获取列表
+     * @param pageNum 当前页码
+     * @param paeSize 页面大小
+     */
+    function getDiscountList() {
+        var requestUrl = "/discount/list/?pageNum=" + app.$data.pageNum + "&pageSize=" + app.$data.pageSize;
+        $.post(requestUrl, app.$data.searchParam, function (res) {
+            console.log(res);
+            if (res.success) {
+                app.$data.total = res.data.total;
+                app.$data.discountList = res.data.rows;
+                app.$data.initLayui = true;
+            }
+        })
+    }
+
+    var that = this;
+    var app = new Vue({
+        el: "#app",
+        data: {
+            discountList: null //折扣列表
+            , total: 0 //数据总数
+            , initLayui: false //是否可以初始化layui
+            , pageSize: 10
+            , pageNum: 1
+            , searchParam: {//搜索条件
+                userId: null
+                , code: null
+                , state: null
+                , field0: null
+                , vagueParam: null
+            }
+        },
+        watch: {
+            'initLayui': function (newVal) {
+                console.log("change initLayui value:", newVal);
+                if (newVal)
+                    that.initLayui();
+            }
+        },
+        methods: {
+            /**
+             * 修改启用/停用状态
+             * @param state
+             * @param id
+             */
+            changeState: function (field, state, id) {
+                changeState(field, state, id);
+            },
+            /**
+             * 软删除数据
+             */
+            softDel: function (id) {
+                softDel(id);
+            },
+
+            /**
+             * 打开弹窗
+             * @param title
+             * @param url
+             */
+            open: function (title, url) {
+                WeAdminShow(title, url);
+            },
+
+            showContent: function (content) {
+                layer.open({
+                    title: "详细内容",
+                    offset: ['25%', '25%'],
+                    type: 1,
+                    order: ['auto', '55%'], //宽高
+                    shadeClose: true,//点击遮罩关闭
+                    content: "<div style='min-height: 200px;min-width:300px;text-align: center'>"+content+"</div>"
+                });
+            }
+        }
+    });
+    getDiscountList();
+</script>
+</html>

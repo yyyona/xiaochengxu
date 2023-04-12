@@ -1,0 +1,74 @@
+{
+  "pages": [
+    "pages/index/index",
+    "pages/goods/goods",
+    "pages/goodsDetail/goodsDetail",
+    "pages/my/my",
+    "pages/cart/cart",
+    "pages/order/order",
+    "pages/login/login",
+    "pages/userEdit/userEdit",
+    "pages/userDetail/userDetail",
+    "pages/userAddress/userAddress"
+  ],
+  "window": {
+    "backgroundTextStyle": "light",
+    "navigationBarBackgroundColor": "#fff",
+    "navigationStyle": "custom",
+    "navigationBarTextStyle": "white"
+  },
+  "usingComponents": {
+    "cu-custom": "/colorui/components/cu-custom"
+  },
+  "tabBar": {
+    "position": "bottom",
+    "selectedColor": "#000000",
+    "list": [
+      {
+        "pagePath": "pages/index/index",
+        "text": "首页",
+        "iconPath": "/images/shouy.png",
+        "selectedIconPath": "/images/shouye.png"
+      },
+      {
+        "pagePath": "pages/goods/goods",
+        "text": "分类",
+        "iconPath": "images/sort.png",
+        "selectedIconPath": "images/sortt.png"
+      },
+      {
+        "pagePath": "pages/cart/cart",
+        "text": "购物车",
+        "iconPath": "images/gouwuc.png",
+        "selectedIconPath": "images/gouwuche.png"
+      },
+      {
+        "pagePath": "pages/my/my",
+        "text": "我的",
+        "iconPath": "/images/wode.png",
+        "selectedIconPath": "/images/wodee.png"
+      }
+    ]
+  },
+  "networkTimeout": {
+    "request": 100000,
+    "downloadFile": 100000
+  },
+  "requiredBackgroundModes": [
+    "audio",
+    "location"
+  ],
+ 
+  "permission": {
+    "scope.userLocation": {
+      "desc": "你的位置信息将用于小程序位置接口的效果展示"
+    }
+  },
+  "requiredPrivateInfos": [
+    "getLocation",
+    "chooseAddress",
+    "chooseLocation"
+
+  ],
+  "sitemapLocation": "sitemap.json"
+}

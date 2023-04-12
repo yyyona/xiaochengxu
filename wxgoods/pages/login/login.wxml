@@ -1,0 +1,12 @@
+<cu-custom bgColor="bg-gradual-pink" isCustom="{{true}}">
+  <view slot="content">用户登录</view>
+</cu-custom>
+<view class="flex justify-center padding margin-top-xl">
+   <image class=" headerImage " src='{{userInfo?userInfo.avatarUrl:rootUrl+"/images/avatar/3.png"}}'></image>
+</view>
+<form bindsubmit="formSubmit" bindreset="formReset" >
+
+<view class='padding-xl'>
+  <button class='cu-btn  bg-pink shadow lg block' id="submit" formType="submit" >微信一键登录</button>
+</view>
+</form>

@@ -1,0 +1,102 @@
+<!--pages/order/order.wxml-->
+<wxs module="filter" src="../../utils/filter.wxs"></wxs>
+<cu-custom bgColor="bg-gradual-pink" isCustom="{{true}}">
+  <view slot="backText">返回</view>
+  <view slot="content">我的订单</view>
+</cu-custom>
+<scroll-view scroll-x class="bg-white nav fixed" style="top:{{CustomBar}}px">
+  <view class="flex text-center">
+    <view class="cu-item flex-sub {{index==TabCurTop?'text-orange cur':''}}" wx:for="{{tablist}}" wx:key="index" bindtap="tabTopSelect" data-id="{{index}}">
+      {{item.name}}
+    </view>
+  </view>
+</scroll-view>
+<scroll-view scroll-y scroll-with-animation class="orderContainer" style="height:calc(100vh - 285rpx)">
+ <checkbox-group bindchange="checkboxChange">
+  <view wx:for="{{list}}" data-id="{{item.id}}" wx:key="id">
+    <view class="padding-xs">
+      <checkbox value="{{item.id}}" checked="true"  wx:if="{{TabCurTop!=1}}"/>
+      {{'订单编号：'+item.code}}
+      <text wx:if="{{TabCurTop==3}}" data-appraise="{{item.appraise}}" class="float-right" bindtap="showModalLook" data-score="{{item.field0}}"
+       data-target="Modal">查看评价</text>
+    </view>
+    <view class="padding-xs my-border-bottom" wx:for="{{item.orderItemList}}" wx:for-item="orderItem" data-id="{{orderItem.id}}" >
+       <view class="cu-list menu-avatar">
+        <view class="cu-item">
+          <view class="cu-avatar round lg" style="background-image:url({{rootImgUrl+orderItem.goodsObj.mainPic}});"></view>
+          <view class="content">
+            <view class="text-grey">{{orderItem.goodsObj.name}}</view>
+            <view class="text-gray text-sm flex">
+              <text class="text-cut">
+										<text class="text-red  margin-right-xs">{{'￥'+orderItem.price}}</text> 
+              </text>
+            </view>
+          </view>
+          <view class="action">
+            <view class="text-grey text-xs">购买数量</view>
+            <view class="cu-tag round bg-pink sm">{{orderItem.number}}</view>
+          </view>
+        </view>
+        </view>
+    </view>
+  </view>
+  </checkbox-group>
+</scroll-view>
+
+<view class="shoppingcart-pay" wx:if="{{list.length >0  && orderIdList.length >0}}">
+  <view class="price-pay-container">
+    <view class="price">
+      <text class="money text-xxl ">¥</text>
+      <text class="number text-xxl ">{{filter.toFixPrice(totalPrice ?  totalPrice : 0)}}</text>
+    </view>
+    <view class="pay-button margin-right-xs" bind:tap="toCancel" wx:if="{{TabCurTop==0}}">取消订单</view>
+    <view class="pay-button" bind:tap="toPay" wx:if="{{TabCurTop==0}}">去支付</view>
+    <view class="pay-button" bindtap="showModal" data-target="bottomModal" wx:if="{{TabCurTop==2}}">
+      我要评价
+    </view>
+    
+  </view>
+</view>
+
+<view class="cu-modal bottom-modal {{modalName=='bottomModal'?'show':''}}">
+  <view class="cu-dialog">
+    <view class="cu-bar bg-white">
+      <view class="action text-green" bindtap="toAppraise">确定</view>
+      <view class="action text-blue" bindtap="hideModal">取消</view>
+    </view>
+    <view class="padding-xl">
+        <view class="appraiseContainer">
+          <image data-id='1' catchtap="appraiseScore" src="{{id1imagesrc}}" />
+          <image data-id='2' catchtap="appraiseScore" src="{{id2imagesrc}}" />
+          <image data-id='3' catchtap="appraiseScore" src="{{id3imagesrc}}" />
+          <image data-id='4' catchtap="appraiseScore" src="{{id4imagesrc}}" />
+          <image data-id='5' catchtap="appraiseScore" src="{{id5imagesrc}}" />
+        </view>
+      	<view class="cu-form-group">
+          <input bindblur="appraiseOrder" value="{{appraise}}" placeholder="请输入评价内容"></input>
+        </view>
+    </view>
+  </view>
+</view>
+
+
+<view class="cu-modal {{modalName=='Modal'?'show':''}}">
+  <view class="cu-dialog">
+    <view class="cu-bar bg-white justify-end">
+      <view class="content">订单评价内容</view>
+      <view class="action" bindtap="hideModal">
+        <text class="cuIcon-close text-red"></text>
+      </view>
+    </view>
+    <view class="padding">
+      <view   class="appraiseContainer">
+          <image data-id='1'  src="{{id1imagesrc}}" />
+          <image data-id='2'  src="{{id2imagesrc}}" />
+          <image data-id='3'  src="{{id3imagesrc}}" />
+          <image data-id='4'  src="{{id4imagesrc}}" />
+          <image data-id='5'  src="{{id5imagesrc}}" />
+        </view>
+        <text>{{currAppraise}}</text>
+    </view>
+  </view>
+</view>

@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ordergoods.mapper.SysOrderMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.ordergoods.entity.SysOrder">
+        <id column="id" property="id" />
+        <result column="code" property="code" />
+        <result column="user_id" property="userId" />
+        <result column="user_name" property="userName" />
+        <result column="state" property="state" />
+        <result column="money" property="money" />
+        <result column="remark" property="remark" />
+        <result column="address" property="address" />
+        <result column="appraise" property="appraise" />
+        <result column="field0" property="field0" />
+        <result column="field1" property="field1" />
+        <result column="field2" property="field2" />
+        <result column="field3" property="field3" />
+        <result column="field4" property="field4" />
+        <result column="field5" property="field5" />
+        <result column="field6" property="field6" />
+        <result column="field7" property="field7" />
+        <result column="field8" property="field8" />
+        <result column="field9" property="field9" />
+        <result column="create_time" property="createTime" />
+        <result column="update_time" property="updateTime" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, code, user_id, user_name, state, money, remark, address, appraise, field0, field1, field2, field3, field4, field5, field6, field7, field8, field9, create_time, update_time
+    </sql>
+
+    <select id="countOrderNum" resultType="hashmap">
+    select state, COUNT(*) as number from tb_sys_order where user_id=#{userId} GROUP BY state
+  </select>
+
+</mapper>
