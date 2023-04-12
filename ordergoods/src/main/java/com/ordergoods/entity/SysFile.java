@@ -1,15 +1,16 @@
 package com.ordergoods.entity;
 
-import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
-import java.time.LocalDateTime;
-import java.io.Serializable;
+import com.baomidou.mybatisplus.annotation.TableName;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
+
+import java.io.Serializable;
+import java.time.LocalDateTime;
 
 /**
  * <p>
@@ -68,18 +69,6 @@ public class SysFile implements Serializable {
 
     @ApiModelProperty(value = "冗余字段5")
     private String field5;
-
-    @ApiModelProperty(value = "冗余字段")
-    private String field6;
-
-    @ApiModelProperty(value = "冗余字段")
-    private String field7;
-
-    @ApiModelProperty(value = "冗余字段")
-    private String field8;
-
-    @ApiModelProperty(value = "冗余字段")
-    private String field9;
 
     @ApiModelProperty(value = "创建时间")
     private LocalDateTime createTime;
