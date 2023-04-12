@@ -18,17 +18,13 @@
         <result column="field3" property="field3" />
         <result column="field4" property="field4" />
         <result column="field5" property="field5" />
-        <result column="field6" property="field6" />
-        <result column="field7" property="field7" />
-        <result column="field8" property="field8" />
-        <result column="field9" property="field9" />
         <result column="create_time" property="createTime" />
         <result column="update_time" property="updateTime" />
     </resultMap>
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        id, file_name, object_id, category_code, file_type, file_url, file_size, save_name, num, field1, field2, field3, field4, field5, field6, field7, field8, field9, create_time, update_time
+        id, file_name, object_id, category_code, file_type, file_url, file_size, save_name, num, field1, field2, field3, field4, field5, create_time, update_time
     </sql>
 
 </mapper>
