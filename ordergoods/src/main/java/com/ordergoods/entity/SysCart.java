@@ -64,30 +64,6 @@ public class SysCart implements Serializable {
     @ApiModelProperty(value = "保存商家名称")
     private String field1;
 
-    @ApiModelProperty(value = "冗余字段2")
-    private String field2;
-
-    @ApiModelProperty(value = "冗余字段3")
-    private String field3;
-
-    @ApiModelProperty(value = "冗余字段4")
-    private String field4;
-
-    @ApiModelProperty(value = "冗余字段5")
-    private String field5;
-
-    @ApiModelProperty(value = "冗余字段")
-    private String field6;
-
-    @ApiModelProperty(value = "冗余字段")
-    private String field7;
-
-    @ApiModelProperty(value = "冗余字段")
-    private String field8;
-
-    @ApiModelProperty(value = "冗余字段")
-    private String field9;
-
     @ApiModelProperty(value = "创建时间")
     private LocalDateTime createTime;
 

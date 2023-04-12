@@ -28,7 +28,7 @@
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        id, user_id, user_name, goods_id, goods_num, goods_name, price, remark, field0, field1, field2, field3, field4, field5, field6, field7, field8, field9, create_time, update_time
+        id, user_id, user_name, goods_id, goods_num, goods_name, price, remark, field0, field1, create_time, update_time
     </sql>
 
 </mapper>
