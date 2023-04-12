@@ -136,7 +136,7 @@ public class SysOrderController {
         //插入订单明细
         SysOrderItem orderItem=new SysOrderItem();
         orderItem.setState(0);
-        orderItem.setField0(JSON.toJSONString(goods));
+        orderItem.setSnapshot(JSON.toJSONString(goods));
         orderItem.setUserId(userId);
         orderItem.setUserName(userName);
         orderItem.setOrderId(orderId+"");
@@ -200,7 +200,7 @@ public class SysOrderController {
             QueryWrapper<SysOrderItem> itemQueryWrapper=new QueryWrapper<>();
             itemQueryWrapper.eq("order_id",e.getId());
             List<SysOrderItem> itemList = itemService.list(itemQueryWrapper);
-            itemList.forEach(e1->e1.setGoodsObj(JSONObject.parseObject(e1.getField0())));
+            itemList.forEach(e1->e1.setGoodsObj(JSONObject.parseObject(e1.getSnapshot())));
             e.setOrderItemList(itemList);
         });
         logger.debug("获取的订单列表："+listPage);
@@ -348,7 +348,7 @@ public class SysOrderController {
             SysGoods goods = goodsService.getById(goodsId);
             SysOrderItem orderItem=new SysOrderItem();
             orderItem.setState(0);
-            orderItem.setField0(JSON.toJSONString(goods));
+            orderItem.setSnapshot(JSON.toJSONString(goods));
             orderItem.setUserId(userId);
             orderItem.setUserName(user.getName());
             orderItem.setOrderId(orderId+"");

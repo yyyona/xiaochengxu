@@ -17,7 +17,7 @@
     <view class="padding-xs">
       <checkbox value="{{item.id}}" checked="true"  wx:if="{{TabCurTop!=1}}"/>
       {{'订单编号：'+item.code}}
-      <text wx:if="{{TabCurTop==3}}" data-appraise="{{item.appraise}}" class="float-right" bindtap="showModalLook" data-score="{{item.field0}}"
+      <text wx:if="{{TabCurTop==3}}" data-appraise="{{item.appraise}}" class="float-right" bindtap="showModalLook" data-score="{{item.snapshot}}"
        data-target="Modal">查看评价</text>
     </view>
     <view class="padding-xs my-border-bottom" wx:for="{{item.orderItemList}}" wx:for-item="orderItem" data-id="{{orderItem.id}}" >
