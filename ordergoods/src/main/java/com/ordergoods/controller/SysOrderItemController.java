@@ -122,7 +122,7 @@ public class SysOrderItemController {
         IPage<SysOrderItem> indexPage = new Page<>(pageDTO.getPageNum(),pageDTO.getPageSize());
         IPage<SysOrderItem> listPage = orderItemService.page(indexPage, queryWrapper);
         List<SysOrderItem> orderItemList = listPage.getRecords();
-        orderItemList.forEach(e->e.setGoodsObj(JSONObject.parseObject(e.getField0())));
+        orderItemList.forEach(e->e.setGoodsObj(JSONObject.parseObject(e.getSnapshot())));
         listPage.setRecords(orderItemList);
         logger.debug("获取的订单明细列表："+listPage);
         //获取分页信息
