@@ -275,12 +275,12 @@ public class SysOrderController {
         UpdateWrapper updateWrapper=new UpdateWrapper();
         updateWrapper.set("appraise",appraise);
         updateWrapper.set("state",3);
-        updateWrapper.set("photo",score);
+        updateWrapper.set("field0",score);
         updateWrapper.in("id",split);
         orderService.update(updateWrapper);
         updateWrapper=new UpdateWrapper();
-        updateWrapper.set("aappraise",appraise);
-        updateWrapper.set("ascore",score);
+        updateWrapper.set("comment",appraise);
+        updateWrapper.set("score",score);
         updateWrapper.set("state",3);
         updateWrapper.in("order_id",split);
         //同步更新到订单明细
